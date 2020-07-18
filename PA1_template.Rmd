@@ -5,21 +5,149 @@ output:
     keep_md: true
 ---
 
+## Assignment Info
+* Filename: PA1_template.Rmd
+* Name: Walter Yu
+* Date: July 2020
+
+## Notes: 
+1. All code included to show data import and plot
+2. Full dataset was imported, then subset for plot
+3. Plotting systems used per assignment instructions 
 
 ## Loading and preprocessing the data
 
+```{r echo=TRUE}
 
+setwd("C:/Users/kharm/Documents/src_dsci/jhu_coursera/05_research/RepData_PeerAssessment1")
+
+# part 1: import data per assignment instructions
+# source: assignment instructions
+activity <- read.csv("activity.csv")
+
+# review dataset
+names(activity)
+str(activity)
+summary(activity)
+
+# part 2: remove null values
+# source: https://www.statmethods.net/input/missingdata.html
+activity_omit <- na.omit(activity)
+
+# verify results
+head(activity_omit)
+summary(activity_omit)
+
+```
 
 ## What is mean total number of steps taken per day?
 
+```{r echo=TRUE}
+
+# part 1: calculate sum, then create histogram 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_sum <- aggregate(steps ~ date, activity_omit, sum)
+summary(steps_sum)
+
+# create histogram plot
+# source: https://www.statmethods.net/graphs/density.html
+hist(steps_sum$steps, col="green", 
+     breaks=10, main="Total Steps per Day",
+     xlab="Steps per Day", ylim=c(0,20), xlim=c(0,25000))
+
+# part 2: calculate mean/median by date
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_mean <- aggregate(steps ~ date, activity_omit, mean)
+summary(steps_mean)
+
+steps_median <- aggregate(steps ~ date, activity_omit, median)
+summary(steps_median)
+
+
+```
 
 
 ## What is the average daily activity pattern?
 
+```{r echo=TRUE}
+
+# part 1; group by interval, calculate mean and plot time series
+# group by interval, then calculate mean steps for each group 
+# source: https://datacarpentry.org/R-genomics/04-dplyr.html
+library(dplyr)
+steps_avg_interval <- activity_omit %>%
+    group_by(interval) %>%
+    summarize(steps_avg = mean(steps))
+
+# verify results
+head(steps_avg_interval)
+
+# create time series plot; use date list and sum of steps
+# source: https://www.datamentor.io/r-programming/plot-function/
+plot(steps_avg_interval,
+     main="Average Steps per Interval",
+     xlab="Interval",
+     ylab="Average Steps",
+     col="blue",
+     type="l")
+
+# part 2: find interval with maximum steps across all days
+# source: https://stackoverflow.com/questions/19449615/how-to-extract-the-row-with-min-or-max-values
+max_interval <- steps_avg_interval[which.max(steps_avg_interval$steps_avg),]
+
+# return row with max interval
+max_interval
+
+
+```
 
 
 ## Imputing missing values
 
+```{r echo=TRUE}
+# part 1: return count of rows with null values
+# https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
+activity_na <- activity[is.na(activity),]
+head(activity_na)
+dim(activity_na)
 
+# part 2-3: create new dataset with imputed null values 
+# replace null with mean value by date
+# source: https://datascience.stackexchange.com/questions/14065/imputing-missing-values-by-mean-by-id-column-in-r
+activity_imp <- activity %>% 
+    group_by(date) %>% 
+    mutate(steps=ifelse(is.na(steps),
+                        mean(steps, na.rm=TRUE), steps))
+
+# verify results
+summary(activity_imp)
+dim(activity_imp)
+
+# part 4: calculate sum, then create histogram 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_sum_imp <- aggregate(steps ~ date, activity_imp, sum)
+summary(steps_sum_imp)
+
+# create histogram plot
+# source: https://www.statmethods.net/graphs/density.html
+hist(steps_sum_imp$steps, col="blue", 
+     breaks=10, main="Total Steps per Day (Imputed Values",
+     xlab="Steps per Day", ylim=c(0,20), xlim=c(0,25000))
+
+# part 2: calculate mean/median by date
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_mean_imp <- aggregate(steps ~ date, activity_imp, mean)
+summary(steps_mean)
+summary(steps_mean_imp)
+
+steps_median_imp <- aggregate(steps ~ date, activity_imp, median)
+summary(steps_median)
+summary(steps_median_imp)
+
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
