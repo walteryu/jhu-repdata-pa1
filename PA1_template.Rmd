@@ -57,8 +57,9 @@ setwd("C:/Users/kharm/Documents/src_dsci/jhu_coursera/05_research/RepData_PeerAs
 activity <- read.csv("activity.csv")
 
 # review dataset
+# https://www.statmethods.net/stats/descriptives.html
+head(activity)
 names(activity)
-str(activity)
 summary(activity)
 
 # part 2: remove null values
