@@ -168,6 +168,12 @@ activity_imp$wday_type <- ifelse(
 names(activity_imp)
 unique(activity_imp$wday_type)
 
-# source: https://www.stat.berkeley.edu/~s133/factors.html
+# part 2: create time series facet plot
+# source: http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/
+library(ggplot2)
+ggplot(data=activity_imp, aes(interval, steps)) +
+    geom_line(color="blue") +
+    geom_point(color="blue") + 
+    facet_wrap(~ wday_type)
 
 ```
