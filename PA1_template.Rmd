@@ -20,6 +20,10 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 
 [2]: https://www.coursera.org/specializations/jhu-data-science
 
+This markdown project template is based on a fork of the course assignment Github repo available [here][3].
+
+[3]: https://github.com/rdpeng/RepData_PeerAssessment1
+
 ### Notes
 1. All code included to show data import and plot
 2. Full dataset was imported, then subset for plot
@@ -30,27 +34,25 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 ### Part 1: Import data per assignment instructions
 
 Processing Steps:
-* Data was loaded with read.csv function per instructions
+* Loaded data with read.csv function per instructions
 * File was unzipped, then read into program
 
 Analysis:
-* Head, names and summary functions were used to review the data
+* Used Head, names and summary functions to review the data
 * Data has null values (2308 rows) and median steps of zero
 
 ### Part 2: Remove null values
 
 Processing Steps:
-* The na.omit function was used to remove null values
-* Results were assigned to a new variable
+* Used na.omit function to remove null values
+* Assigned results to a new variable
 
 Analysis:
-* Head, names and summary functions were used to review the data
+* Used head, names and summary functions to review the data
 * Data has null values (2308 rows) and median steps of zero
-* Summary function indicates mean/median steps did not change
+* Summary function indicated mean/median steps did not change
 
 ```{r echo=TRUE}
-
-setwd("C:/Users/kharm/Documents/src_dsci/jhu_coursera/05_research/RepData_PeerAssessment1")
 
 # part 1: import data per assignment instructions
 # source: assignment instructions
@@ -79,26 +81,27 @@ summary(activity_omit)
 ### Part 1: Calculate sum, then create histogram 
 
 Processing Steps:
-* The aggreage function was used to calculate total steps/day
-* Results were assigned to a new variable
+* Used aggreage function to calculate total steps/day
+* Assigned results to a new variable
 
 Analysis:
-* Head, names and summary functions were used to review the data
+* Used head, names and summary functions to review the data
 * Verified that aggregate returned total steps per day
 
 Plot:
-* Histogram was created for steps/day; axis adjusted to fit data
-* Bins were applied to visualize the data effectively
+* Created histogram for steps/day; axis adjusted to fit data
+* Applied bins to visualize the data effectively
 
 ### Part 2: Calculate mean/median by date
 
 Processing Steps:
-* The aggreage function was used to calculate total steps/day
-* Results were assigned to a new variable
+* Used aggreage function to calculate mean/median steps/day
+* Assigned results to a new variable
 
 Analysis:
-* Head, names and summary functions were used to review the data
-* Verified that aggregate returned total steps per day
+* Used head, names and summary functions to review the data
+* Verified that aggregate returned mean/median steps per day
+* Median steps/day = 0 due to large number of zero step values
 
 ```{r echo=TRUE}
 
@@ -113,7 +116,7 @@ head(steps_sum)
 names(steps_sum)
 summary(steps_sum)
 
-# create histogram plot
+# create histogram plot; adjust axis and bins
 # source: https://www.statmethods.net/graphs/density.html
 hist(steps_sum$steps, col="green", 
      breaks=10, main="Total Steps per Day",
