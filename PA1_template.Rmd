@@ -67,12 +67,38 @@ summary(activity)
 activity_omit <- na.omit(activity)
 
 # verify results
+# https://www.statmethods.net/stats/descriptives.html
 head(activity_omit)
+names(activity_omit)
 summary(activity_omit)
 
 ```
 
 ## What is mean total number of steps taken per day?
+
+### Part 1: Calculate sum, then create histogram 
+
+Processing Steps:
+* The aggreage function was used to calculate total steps/day
+* Results were assigned to a new variable
+
+Analysis:
+* Head, names and summary functions were used to review the data
+* Verified that aggregate returned total steps per day
+
+Plot:
+* Histogram was created for steps/day; axis adjusted to fit data
+* Bins were applied to visualize the data effectively
+
+### Part 2: Calculate mean/median by date
+
+Processing Steps:
+* The aggreage function was used to calculate total steps/day
+* Results were assigned to a new variable
+
+Analysis:
+* Head, names and summary functions were used to review the data
+* Verified that aggregate returned total steps per day
 
 ```{r echo=TRUE}
 
@@ -80,6 +106,11 @@ summary(activity_omit)
 # aggregate by date, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
 steps_sum <- aggregate(steps ~ date, activity_omit, sum)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_sum)
+names(steps_sum)
 summary(steps_sum)
 
 # create histogram plot
