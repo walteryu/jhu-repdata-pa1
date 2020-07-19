@@ -145,14 +145,45 @@ summary(steps_median)
 
 ```
 
-
 ## What is the average daily activity pattern?
+
+### Part 1; Group by interval, calculate mean and plot time series
+
+Processing Steps:
+* Used dplyr/group_by to calculate mean steps/interval
+* Assigned results to a new variable
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that mean of steps/interval differ from steps/day
+
+Plot:
+* Created time series plot; add axis labels and line color
+
+Notes:
+* Assumed instructions were for steps/interval across ALL DAYS
+* So, mean was calculated per interval for entire data set
+* NOT group by interval, then calculate mean by date
+
+### Part 2: Find interval with maximum steps across all days
+
+Processing Steps:
+* Used which function to subset for maximum steps/interval
+* Assigned results to a new variable
 
 ```{r echo=TRUE}
 
 # part 1; group by interval, calculate mean and plot time series
 # group by interval, then calculate mean steps for each group 
 # source: https://datacarpentry.org/R-genomics/04-dplyr.html
+
+# source: https://github.com/r-lib/pillar/issues/92
+# install.packages("devtools")
+# install.packages("fansi")
+# install.packages("lifecycle")
+# devtools::install_github("r-lib/pillar")
+
+# install.packages("dplyr")
 library(dplyr)
 steps_avg_interval <- activity_omit %>%
     group_by(interval) %>%
@@ -161,6 +192,8 @@ steps_avg_interval <- activity_omit %>%
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
 head(steps_avg_interval)
+names(steps_avg_interval)
+summary(steps_avg_interval)
 
 # create time series plot; use date list and sum of steps
 # source: https://www.datamentor.io/r-programming/plot-function/
@@ -176,13 +209,54 @@ plot(steps_avg_interval,
 max_interval <- steps_avg_interval[which.max(steps_avg_interval$steps_avg),]
 
 # return row with max interval
+print("Subset for maximum interval and return result.")
 max_interval
-
 
 ```
 
-
 ## Imputing missing values
+
+### Part 1: Return count of rows with null values
+
+Processing Steps:
+* Used is.na function to subset for records with null 
+* Assigned results to a new variable
+
+Analysis:
+* Verified that row count (2308) was same as raw data/summary
+
+### Part 2-3: Create new dataset with imputed null values 
+
+Processing Steps:
+* Used simputation/impute_lm to impute null values
+* Replaced null values with linear model per interval
+* Assigned dataset to new variable
+
+Analysis:
+* Imputation did not change mean/median 
+* Change did not occur since linear model filled matching values
+* However, total steps increased since filled values add to total
+
+Notes:
+* Numerous attempts were made with dplyr/group_by which failed
+* Code left to document previous attempts
+* As a result, simputation package was used to yield result
+
+### Part 4: calculate sum, then create histogram 
+
+Processing Steps:
+* Used aggreage function to calculate total steps/day
+* Assigned results to a new variable
+
+Plot:
+* Created time series plot; add axis labels and line color
+* Total steps increased since filled values add to total
+
+Analysis:
+* Imputation did not change mean/median 
+* Change did not occur since linear model filled matching values
+* However, total steps increased since filled values add to total
+
 
 ```{r echo=TRUE}
 
@@ -190,24 +264,56 @@ max_interval
 # https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
 activity_na <- activity[is.na(activity),]
 
-# verify results
-# https://www.statmethods.net/stats/descriptives.html
-head(activity_na)
-dim(activity_na)
+# return row with max interval
+print("Subset for records with null values and return count.")
+nrow(activity_na)
 
 # part 2-3: create new dataset with imputed null values 
 # replace null with mean value by date
 # source: https://datascience.stackexchange.com/questions/14065/imputing-missing-values-by-mean-by-id-column-in-r
-activity_imp <- activity %>% 
-    # group_by(date) %>% 
-    mutate(steps=ifelse(is.na(steps),
-                        mean(steps, na.rm=TRUE), steps))
+# https://stackoverflow.com/questions/27207162/fill-in-na-based-on-the-last-non-na-value-for-each-group-in-r
+# library(zoo)
+# activity_imp %>% 
+#     group_by(date) %>%
+#     mutate(step=zoo::na.locf(steps))
+#     transmute(steps=na.locf(steps, na.rm=FALSE))
+#     mutate(steps=ifelse(is.na(steps),mean(steps, na.rm=TRUE),steps))
+
+# source: https://stackoverflow.com/questions/21714867/replace-na-in-a-dplyr-chain
+# library(data.table)
+# names(activity_imp)
+# activity_imp[, steps := ifelse(
+#   is.na(steps),mean(steps,na.rm=TRUE), steps), by=date]
+
+# source: https://github.com/decisionpatterns/tidyimpute/issues/5
+# activity_imp %>% 
+#   group_by(date) %>% 
+#   group_modify(~ impute_median(.x, steps)) %>% 
+#   ungroup()
+
+# source: https://tidyr.tidyverse.org/reference/fill.html
+# install.packages("tidyverse")
+# library(tidyverse)
+# activity_imp %>%
+#   group_by(date) %>% 
+#   fill(steps, .direction="downup") %>%
+#   ungroup()
+
+# source: https://cran.r-project.org/web/packages/simputation/vignettes/intro.html
+# install.packages('simputation')
+library(simputation)
+activity_imp <- impute_lm(activity, steps ~ interval)
 
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
-summary(activity_imp)
-dim(activity_imp)
+nrow(activity_imp)
 head(activity_imp)
+names(activity_imp)
+
+# compare raw and imputed data
+# https://www.statmethods.net/stats/descriptives.html
+summary(activity)
+summary(activity_imp)
 
 # part 4: calculate sum, then create histogram 
 # aggregate by date, then apply calculations
@@ -217,17 +323,18 @@ summary(steps_sum_imp)
 
 # create histogram plot
 # source: https://www.statmethods.net/graphs/density.html
-hist(steps_sum_imp$steps, col="blue", 
-     breaks=10, main="Total Steps per Day (Imputed Values",
-     xlab="Steps per Day", ylim=c(0,20), xlim=c(0,25000))
+hist(steps_sum_imp$steps, col="green", 
+     breaks=10, main="Total Steps per Day (Imputed Values)",
+     xlab="Steps per Day", ylim=c(0,30), xlim=c(0,25000))
 
-# part 2: calculate mean/median by date
 # aggregate by date, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
 steps_mean_imp <- aggregate(steps ~ date, activity_imp, mean)
 summary(steps_mean)
 summary(steps_mean_imp)
 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
 steps_median_imp <- aggregate(steps ~ date, activity_imp, median)
 summary(steps_median)
 summary(steps_median_imp)
@@ -251,20 +358,25 @@ activity_imp$wday_type <- ifelse(
 
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
-names(activity_imp)
+nrow(activity_imp)
 head(activity_imp)
+names(activity_imp)
+summary(activity_imp)
 unique(activity_imp$wday_type)
 
 # group by interval, then calculate mean steps for each group 
 # source: https://datacarpentry.org/R-genomics/04-dplyr.html
+# install.packages("dplyr")
+# library(dplyr)
 steps_avg_wday <- activity_imp %>%
     group_by(steps, interval, wday_type) %>%
     summarize(steps_avg = mean(steps))
 
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
-names(steps_avg_wday)
 head(steps_avg_wday)
+names(steps_avg_wday)
+summary(steps_avg_wday)
 
 # part 2: create time series facet plot
 # source: http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/
