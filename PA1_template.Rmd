@@ -123,11 +123,22 @@ hist(steps_sum$steps, col="green",
 # aggregate by date, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
 steps_mean <- aggregate(steps ~ date, activity_omit, mean)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_mean)
+names(steps_mean)
 summary(steps_mean)
 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
 steps_median <- aggregate(steps ~ date, activity_omit, median)
-summary(steps_median)
 
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_median)
+names(steps_median)
+summary(steps_median)
 
 ```
 
@@ -145,6 +156,7 @@ steps_avg_interval <- activity_omit %>%
     summarize(steps_avg = mean(steps))
 
 # verify results
+# https://www.statmethods.net/stats/descriptives.html
 head(steps_avg_interval)
 
 # create time series plot; use date list and sum of steps
