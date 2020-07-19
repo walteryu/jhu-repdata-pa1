@@ -152,3 +152,22 @@ summary(steps_median_imp)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r echo=TRUE}
+
+# part 1: create weekday/weekend factor within dataset
+
+# first, create weekday/weekend categorical variable
+# source: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R-Manual/R-Manual4.html
+activity_imp$wday_type <- ifelse(
+    weekdays(as.Date(activity_imp$date)) == "Saturday" |
+    weekdays(as.Date(activity_imp$date)) == "Sunday",
+    "Weekend",
+    "Weekday"
+)
+names(activity_imp)
+unique(activity_imp$wday_type)
+
+# source: https://www.stat.berkeley.edu/~s133/factors.html
+
+```
