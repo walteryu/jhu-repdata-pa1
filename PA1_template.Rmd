@@ -10,12 +10,43 @@ output:
 * Name: Walter Yu
 * Date: July 2020
 
-## Notes: 
+### Introduction 
+
+This markdown file is an analysis and visualization of UCI human activity recognition dataset. Source data for this assignment is an aggregated dataset from the original available [here][1].
+
+[1]: https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
+
+This assignment is completed for the JHU Coursera Data Science Program, which is a 10 course certification. More info about this program is available [here][2].
+
+[2]: https://www.coursera.org/specializations/jhu-data-science
+
+### Notes
 1. All code included to show data import and plot
 2. Full dataset was imported, then subset for plot
 3. Plotting systems used per assignment instructions 
 
 ## Loading and preprocessing the data
+
+### Part 1: Import data per assignment instructions
+
+Processing Steps:
+* Data was loaded with read.csv function per instructions
+* File was unzipped, then read into program
+
+Analysis:
+* Head, names and summary functions were used to review the data
+* Data has null values (2308 rows) and median steps of zero
+
+### Part 2: Remove null values
+
+Processing Steps:
+* The na.omit function was used to remove null values
+* Results were assigned to a new variable
+
+Analysis:
+* Head, names and summary functions were used to review the data
+* Data has null values (2308 rows) and median steps of zero
+* Summary function indicates mean/median steps did not change
 
 ```{r echo=TRUE}
 
