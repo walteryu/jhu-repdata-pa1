@@ -186,6 +186,9 @@ max_interval
 # part 1: return count of rows with null values
 # https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
 activity_na <- activity[is.na(activity),]
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
 head(activity_na)
 dim(activity_na)
 
@@ -193,13 +196,15 @@ dim(activity_na)
 # replace null with mean value by date
 # source: https://datascience.stackexchange.com/questions/14065/imputing-missing-values-by-mean-by-id-column-in-r
 activity_imp <- activity %>% 
-    group_by(date) %>% 
+    # group_by(date) %>% 
     mutate(steps=ifelse(is.na(steps),
                         mean(steps, na.rm=TRUE), steps))
 
 # verify results
+# https://www.statmethods.net/stats/descriptives.html
 summary(activity_imp)
 dim(activity_imp)
+head(activity_imp)
 
 # part 4: calculate sum, then create histogram 
 # aggregate by date, then apply calculations
