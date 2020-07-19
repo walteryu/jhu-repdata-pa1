@@ -107,6 +107,7 @@ max_interval
 ## Imputing missing values
 
 ```{r echo=TRUE}
+
 # part 1: return count of rows with null values
 # https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
 activity_na <- activity[is.na(activity),]
