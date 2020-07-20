@@ -344,6 +344,33 @@ summary(steps_median_imp)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
+### Part 1: Create weekday/weekend factor within dataset
+
+Processing Steps:
+* Created weekday/weekend factor with ifelse logic
+* Used weekdays function to create weekday/weekend values
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that factors were created successfully
+
+### Part 2: Create time series facet plot
+
+Processing Steps:
+* Used dplyr to group by date, then calculate mean 
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that mean was calculated by date
+
+Plot:
+* Created time series facet plot; add line color
+
+Notes:
+* Assumed instructions were for steps/interval across ALL DAYS
+* So, mean was calculated per interval for entire data set
+* NOT group by interval, then calculate mean by date
+
 ```{r echo=TRUE}
 
 # part 1: create weekday/weekend factor within dataset
@@ -381,6 +408,7 @@ summary(steps_avg_wday)
 
 # part 2: create time series facet plot
 # source: http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/
+install.packages("ggplot2")
 library(ggplot2)
 ggplot(data=steps_avg_wday, aes(interval, steps_avg)) +
     geom_line(color="blue") +
