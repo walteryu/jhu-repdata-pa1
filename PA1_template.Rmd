@@ -259,7 +259,6 @@ Analysis:
 * Change did not occur since linear model filled matching values
 * However, total steps increased since filled values add to total
 
-
 ```{r echo=TRUE}
 
 # part 1: return count of rows with null values
@@ -302,7 +301,7 @@ nrow(activity_na)
 #   ungroup()
 
 # source: https://cran.r-project.org/web/packages/simputation/vignettes/intro.html
-# install.packages('simputation')
+install.packages('simputation')
 library(simputation)
 activity_imp <- impute_lm(activity, steps ~ interval)
 
