@@ -20,9 +20,15 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 
 [2]: https://www.coursera.org/specializations/jhu-data-science
 
+### HTML File/Template
+
+The HTML file for this assignment was generated with [R Studio Cloud][3] due to dplyr package installation errors on my local machine; as a result, file was run and report rendered there instead.
+
+[3]: https://rstudio.cloud 
+
 This markdown project template is based on a fork of the course assignment Github repo available [here][3].
 
-[3]: https://github.com/rdpeng/RepData_PeerAssessment1
+[4]: https://github.com/rdpeng/RepData_PeerAssessment1
 
 ### Notes
 1. All code included to show data import and plot
@@ -147,7 +153,7 @@ summary(steps_median)
 
 ## What is the average daily activity pattern?
 
-### Part 1; Group by interval, calculate mean and plot time series
+### Part 1: Group by interval, calculate mean and plot time series
 
 Processing Steps:
 * Used dplyr/group_by to calculate mean steps/interval
@@ -171,19 +177,15 @@ Processing Steps:
 * Used which function to subset for maximum steps/interval
 * Assigned results to a new variable
 
+Analysis:
+* Interval 835 had the maximum steps/interval.
+
 ```{r echo=TRUE}
 
-# part 1; group by interval, calculate mean and plot time series
+# part 1: group by interval, calculate mean and plot time series
 # group by interval, then calculate mean steps for each group 
 # source: https://datacarpentry.org/R-genomics/04-dplyr.html
-
-# source: https://github.com/r-lib/pillar/issues/92
-# install.packages("devtools")
-# install.packages("fansi")
-# install.packages("lifecycle")
-# devtools::install_github("r-lib/pillar")
-
-# install.packages("dplyr")
+install.packages("dplyr")
 library(dplyr)
 steps_avg_interval <- activity_omit %>%
     group_by(interval) %>%
