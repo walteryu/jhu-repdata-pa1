@@ -26,7 +26,7 @@ The HTML file for this assignment was generated with [R Studio Cloud][3] due to 
 
 [3]: https://rstudio.cloud 
 
-This markdown project template is based on a fork of the course assignment Github repo available [here][3].
+This markdown project template is based on a fork of the course assignment Github repo available [here][4].
 
 [4]: https://github.com/rdpeng/RepData_PeerAssessment1
 

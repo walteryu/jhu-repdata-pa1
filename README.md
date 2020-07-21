@@ -1,3 +1,22 @@
+## JHU Data Science Specialization - Reproducible Research
+### Peer Assignment 1
+
+## Submission Notes
+
+1. This markdown file is an analysis and visualization of UCI human activity recognition dataset. Source data for this assignment is an aggregated dataset from the original available [here][1].
+
+[1]: https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
+
+2. The HTML file for this assignment was generated with [R Studio Cloud][2] due to dplyr package installation errors on my local machine; as a result, file was run and report rendered there instead.
+
+[2]: https://rstudio.cloud
+
+This markdown project template is based on a fork of the course assignment Github repo available [here][3].
+
+[3]: https://github.com/rdpeng/RepData_PeerAssessment1
+
+## Original README (Forked Github Repo)
+
 ## Introduction
 
 It is now possible to collect a large amount of data about personal
@@ -124,7 +143,7 @@ the dataset with the filled-in missing values for this part.
 
 1. Make a panel plot containing a time series plot (i.e. `type = "l"`) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using **simulated data**:
 
-![Sample panel plot](instructions_fig/sample_panelplot.png) 
+![Sample panel plot](instructions_fig/sample_panelplot.png)
 
 
 **Your plot will look different from the one above** because you will
