@@ -31,6 +31,7 @@ This markdown project template is based on a fork of the course assignment Githu
 [4]: https://github.com/rdpeng/RepData_PeerAssessment1
 
 ### Notes
+
 1. All code included to show data import and plot
 2. Full dataset was imported, then subset for plot
 3. Plotting systems used per assignment instructions 
@@ -55,7 +56,7 @@ Processing Steps:
 
 Analysis:
 * Used head, names and summary functions to review the data
-* Data has null values (2308 rows) and median steps of zero
+* Null values (2308 rows) were removed, and median steps = 0
 * Summary function indicated mean/median steps did not change
 
 ```{r echo=TRUE}
@@ -251,7 +252,7 @@ Processing Steps:
 * Assigned results to a new variable
 
 Plot:
-* Created time series plot; add axis labels and line color
+* Created histogram; add axis labels and line color
 * Total steps increased since filled values add to total
 
 Analysis:
@@ -265,12 +266,14 @@ Analysis:
 # https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
 activity_na <- activity[is.na(activity),]
 
-# return row with max interval
+# return number of records with null values
 print("Subset for records with null values and return count.")
 nrow(activity_na)
 
 # part 2-3: create new dataset with imputed null values 
 # replace null with mean value by date
+
+# note: some code blocks are commented out which were failed attempts to use group_by
 # source: https://datascience.stackexchange.com/questions/14065/imputing-missing-values-by-mean-by-id-column-in-r
 # https://stackoverflow.com/questions/27207162/fill-in-na-based-on-the-last-non-na-value-for-each-group-in-r
 # library(zoo)
